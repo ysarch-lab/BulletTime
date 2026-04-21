@@ -1,0 +1,25 @@
+# Intel Pin kit downloaded by setup_pintool.sh
+/pin/
+
+# Pintool build output
+/src/pintool/obj-intel64/
+
+# Consumer build output
+/src/consumer/consumer
+
+# Kernel module build artifacts
+/src/kernel_dilation/*.ko
+/src/kernel_dilation/*.mod
+/src/kernel_dilation/*.mod.c
+/src/kernel_dilation/*.mod.o
+/src/kernel_dilation/*.o
+/src/kernel_dilation/.*.cmd
+/src/kernel_dilation/.*.o
+/src/kernel_dilation/.tmp_versions/
+/src/kernel_dilation/modules.order
+/src/kernel_dilation/Module.symvers
+
+# Editor / OS
+*.swp
+*~
+.DS_Store
