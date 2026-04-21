@@ -1,8 +1,4 @@
-# BulletTime
-
-Time Dilation for High-Fidelity Tracing — the reference implementation for the ISCA 2026 paper *BulletTime: Time Dilation for High-Fidelity Tracing*.
-
-## Overview
+## BulletTime Overview
 
 BulletTime is a memory-reference tracing framework built on Intel Pin. It preserves the behavior of the traced application relative to untraced execution by *time-dilating* faster threads to match the slowest thread's I/O-induced delay, and by extending kernel-daemon sleep timers so system threads keep pace as well.
 
