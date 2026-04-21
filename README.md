@@ -64,6 +64,23 @@ Run a trace with [collect_trace.sh](collect_trace.sh), which orchestrates the co
 ./collect_trace.sh -o /tmp/my_trace -- ./my_app    # trace ./my_app; outputs in /tmp/my_trace
 ```
 
+## Trace Format
+
+Each traced application thread produces a single file `output_<tid>.zst` in the output directory. The file is a zstd stream (decompress with `zstd -dc` or `libzstd`) of fixed-size 24-byte records, little-endian on x86_64:
+
+```
+offset size  field     meaning
+-----  ----  --------  ----------------------------------------------
+0      8     pc        instruction address (ADDRINT)
+8      8     ea        effective address of the memory access
+16     4     sz        access size in bytes (1, 2, 4, 8, 16, 32, ...)
+20     4     is_read   1 for read, 0 for write
+```
+
+Read-modify-write instructions produce two records at the same `pc` — one with `is_read=1` and one with `is_read=0`. Large `sz` values (e.g. 896) come from XSAVE/XRSTOR-family instructions that save/restore the FPU/SSE/AVX state.
+
+The canonical struct definition lives at [src/pintool/common.h](src/pintool/common.h).
+
 ## Citation
 
 ```bibtex
