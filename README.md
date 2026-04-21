@@ -57,11 +57,11 @@ sudo mount -t hugetlbfs none /dev/hugepages
 
 The exact number of pages to reserve scales with the number of traced threads and the configured buffer size (see `CONSUMER_BUFFER_SIZE` in [src/include/consumer.h](src/include/consumer.h)).
 
-Run a trace with [run_trace.sh](run_trace.sh), which orchestrates the consumer and the pintool:
+Run a trace with [collect_trace.sh](collect_trace.sh), which orchestrates the consumer and the pintool:
 
 ```sh
-./run_trace.sh --help                          # full option list
-./run_trace.sh -o /tmp/my_trace -- ./my_app    # trace ./my_app; outputs in /tmp/my_trace
+./collect_trace.sh --help                          # full option list
+./collect_trace.sh -o /tmp/my_trace -- ./my_app    # trace ./my_app; outputs in /tmp/my_trace
 ```
 
 ## Citation
