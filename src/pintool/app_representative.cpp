@@ -33,21 +33,12 @@ VOID* APP_THREAD_REPRESENTITVE::EnqueueFullAndGetNextToFill(VOID* fullBuf, UINT6
     _appThreadStatistics.IncrementNumBuffersFilled();
     UINT32 n_filled = _appThreadStatistics.NumBuffersFilled();
 
-    // Process the buffer in-thread (hands it off to the consumer via shared memory).
+    // Drain the full buffer synchronously to the consumer, then recycle the
+    // same buffer for Pin to refill — no extra allocation needed.
     _appThreadStatistics.IncrementNumBuffersProcessedInAppThread();
     ProcessBuffer(fullBuf, numElements, this, n_filled, FALSE, NULL, buf_type);
-
-    // Get the next free buffer for Pin to fill.
-    UINT64 numElementsDummy;
-    APP_THREAD_REPRESENTITVE* appThreadRepresentitiveDummy;
-    UINT32 indexDummy;
-    UINT32 buf_field;
-    _currentBufs[buf_type] = _freeBufferListManagers[buf_type]->GetBufferFromList(&numElementsDummy,
-                            &appThreadRepresentitiveDummy, &indexDummy, _myTid, &buf_field, NULL);
-    ASSERTX(_currentBufs[buf_type] != NULL);
-    ASSERTX(buf_field == buf_type);
-    ASSERTX(appThreadRepresentitiveDummy == this);
-    return _currentBufs[buf_type];
+    _currentBufs[buf_type] = fullBuf;
+    return fullBuf;
 }
 
 VOID APP_THREAD_REPRESENTITVE::AllocateBuffers(UINT32 buf_type, BUFFER_ID bufId)
