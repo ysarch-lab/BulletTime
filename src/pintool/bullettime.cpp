@@ -254,7 +254,7 @@ VOID Trace(TRACE trace, VOID* v)
                 INS_InsertFillBuffer(ins, IPOINT_BEFORE, buf_ids[0],
                         IARG_INST_PTR, offsetof(struct MEMREF, pc),
                         IARG_MEMORYWRITE_EA, offsetof(struct MEMREF, ea),
-                        IARG_MEMORYREAD_SIZE, offsetof(struct MEMREF, sz),
+                        IARG_MEMORYWRITE_SIZE, offsetof(struct MEMREF, sz),
                         IARG_UINT32, 0, offsetof(struct MEMREF, is_read), IARG_END);
             }
         }
